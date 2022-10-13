@@ -15,14 +15,14 @@ class Pokemon(db.Model):
   image_url = db.Column(db.VARCHAR, nullable=False)
   name = db.Column(db.VARCHAR, nullable=False, unique=True)
   type = db.Column(db.VARCHAR, nullable=False)
-  moves= type = db.Column(db.VARCHAR, nullable=False)
+  moves = db.Column(db.VARCHAR, nullable=False)
   encounter_rate = db.Column(db.Float(precision=3), default=1)
   catch_rate = db.Column(db.Float(precision=3), default=1)
   captured = db.Column(db.Boolean, default=False)
   created_at = db.Column(db.DateTime, default=dt.now())
   updated_at = db.Column(db.DateTime, default=dt.now())
 
-  items = db.relationship('items.id', back_populates='pokemon')
+  items = db.relationship('Items', back_populates='pokemon')
 
 class Items(db.Model):
   __tablename__ = 'items'
@@ -35,3 +35,5 @@ class Items(db.Model):
   pokemon_id = db.Column(db.Integer, db.ForeignKey('pokemon.id'))
   created_at = db.Column(db.DateTime, default=dt.now())
   updated_at = db.Column(db.DateTime, default=dt.now())
+
+  pokemon = db.relationship('Pokemon', back_populates='items')

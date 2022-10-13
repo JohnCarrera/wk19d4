@@ -1,12 +1,15 @@
-from flask import Blueprint, render_template, redirect
-from ..models import db
+from flask import Blueprint, redirect
+from ..models import db, Pokemon, Items
 
 bp = Blueprint("pokemon", __name__)
 
 # routes to /pokemon
 @bp.route("", methods=['GET'])
 def get_pokemon():
-    return "an array of pokemon"
+    pokemon = Pokemon.query.all()
+    print(pokemon)
+    return "pokemon here"
+    # return pokemon.to_dict()
 
 @bp.route("", methods=['POST'])
 def create_pokemon():
@@ -14,7 +17,8 @@ def create_pokemon():
 
 @bp.route("/types")
 def get_pokemon_types():
-    return "an array of pokemon types"
+    types = db.session.query(Pokemon.type).distinct()
+    return types.to_dict()
 
 @bp.route("/<int:id>/items")
 def get_pokemon_items_id(id):
