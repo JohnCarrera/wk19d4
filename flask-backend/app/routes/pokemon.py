@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect
+from flask import Blueprint, redirect, jsonify
 from ..models import db, Pokemon, Items
 
 bp = Blueprint("pokemon", __name__)
@@ -8,7 +8,7 @@ bp = Blueprint("pokemon", __name__)
 def get_pokemon():
     pokemon = Pokemon.query.all()
     print(pokemon)
-    return dict(pokemon)
+    return jsonify([mon.to_dict() for mon in pokemon])
 
 @bp.route("", methods=['POST'])
 def create_pokemon():
@@ -17,13 +17,13 @@ def create_pokemon():
 @bp.route("/types")
 def get_pokemon_types():
     types = db.session.query(Pokemon.type).distinct()
-    return dict(types)
+    return jsonify(types)
 
 @bp.route("/<int:id>/items")
 def get_pokemon_items_id(id):
     pokemon = Pokemon.get(id)
     items = pokemon.items()
-    list_items = [item.to_dict for item in items]
+    list_items = jsonify([item.to_dict() for item in items])
     return list_items
 
 @bp.route("/<int:id>/items", methods=['POST'])
