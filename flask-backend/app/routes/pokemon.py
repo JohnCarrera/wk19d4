@@ -91,6 +91,5 @@ def update_pokemon_id(id):
         pokemon = Pokemon.query.get(id)
         pokemon.update(item.to_dict())
         db.session.commit()
-        return jsonify(item.to_dict())
     returnStr=f'updated pokemon {id}'
-    return returnStr
+    return jsonify(returnStr)
