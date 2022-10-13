@@ -29,27 +29,24 @@ def create_pokemon():
 
 @bp.route("/types")
 def get_pokemon_types():
-    types = db.session.query(Pokemon.type).distinct().all()
-    return jsonify([type[0] for type in types])
-
-    # return jsonify([
-    #     "fire",
-    #     "electric",
-    #     "normal",
-    #     "ghost",
-    #     "psychic",
-    #     "water",
-    #     "bug",
-    #     "dragon",
-    #     "grass",
-    #     "fighting",
-    #     "ice",
-    #     "flying",
-    #     "poison",
-    #     "ground",
-    #     "rock",
-    #     "steel"
-    # ])
+    return jsonify([
+        "fire",
+        "electric",
+        "normal",
+        "ghost",
+        "psychic",
+        "water",
+        "bug",
+        "dragon",
+        "grass",
+        "fighting",
+        "ice",
+        "flying",
+        "poison",
+        "ground",
+        "rock",
+        "steel"
+    ])
 
 @bp.route("/<int:id>/items")
 def get_pokemon_items_id(id):

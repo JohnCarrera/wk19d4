@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect
-from ..models import db
+from ..models import db, Items
 
 bp = Blueprint("items", __name__)
 
@@ -11,5 +11,8 @@ def update_item_id(id):
 
 @bp.route("/<int:id>", methods=['DELETE'])
 def delete_item_id(id):
-    returnStr=f'deleted item {id}'
-    return returnStr
+
+    item = Items.query.get(id)
+    db.session.delete(item)
+    db.session.commit()
+    return {'id': id}
