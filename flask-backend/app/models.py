@@ -24,6 +24,23 @@ class Pokemon(db.Model):
 
   items = db.relationship('Items', back_populates='pokemon')
 
+  def to_dict(self):
+    return {
+      'id': self.id,
+      'number': self.number,
+      'attack': self.attack,
+      'defense': self.defense,
+      'imageUrl': self.image_url,
+      'name': self.name,
+      'type': self.type,
+      'moves': self.moves,
+      'encounterRate': self.encounter_rate,
+      'catchRate': self.catch_rate,
+      'captured': self.captured,
+      'createdAt': self.created_at,
+      'updatedAt': self.updated_at,
+    }
+
 class Items(db.Model):
   __tablename__ = 'items'
 
@@ -37,3 +54,15 @@ class Items(db.Model):
   updated_at = db.Column(db.DateTime, default=dt.now())
 
   pokemon = db.relationship('Pokemon', back_populates='items')
+
+  def to_dict(self):
+    return {
+      'id': self.id ,
+      'happiness': self.happiness ,
+      'imageUrl': self.image_url ,
+      'name': self.name ,
+      'price': self.price ,
+      'pokemonId': self.pokemon_id ,
+      'createdAt': self.created_at ,
+      'updatedAt': self.updated_at ,
+    }
