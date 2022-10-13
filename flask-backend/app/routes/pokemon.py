@@ -82,5 +82,14 @@ def get_pokemon_id(id):
 
 @bp.route("/<int:id>", methods=['PUT'])
 def update_pokemon_id(id):
+
+    form = ItemForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        data = form.data
+        print(data)
+        pokemon = Pokemon.query.get(id)
+        pokemon.update(item.to_dict())
+        db.session.commit()
     returnStr=f'updated pokemon {id}'
-    return returnStr
+    return jsonify(returnStr)
