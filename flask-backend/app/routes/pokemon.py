@@ -7,8 +7,7 @@ bp = Blueprint("pokemon", __name__)
 @bp.route("", methods=['GET'])
 def get_pokemon():
     pokemon = Pokemon.query.all()
-    print(pokemon)
-    return dict(pokemon)
+    return jsonify([mon.to_dict() for mon in pokemon])
 
 @bp.route("", methods=['POST'])
 def create_pokemon():
