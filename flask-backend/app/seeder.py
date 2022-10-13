@@ -1,5 +1,7 @@
 from random import randint
 
+from models import db, Items, Pokemon
+
 pokemonSeed = [{
     'number': 1,
     'imageUrl': '/static/images/pokemon_snaps/1.svg',
@@ -189,20 +191,45 @@ pokemonSeed = [{
     ],
 }]
 
-pokemonIds=list(range(1, 14)) + list(range(16, 18))
+pokemon_ids=list(range(1, 14)) + list(range(16, 18))
 
 def randomImage():
     images = ["/static/images/pokemon_berry.svg",
               "/static/images/pokemon_egg.svg",
               "/static/images/pokemon_potion.svg",
               "/static/images/pokemon_super_potion.svg"]
-    num = randint(0, len(images))
+
+    num = randint(0, len(images) - 1)
     return images[num]
+
+def randomName():
+    names = [ "Unbranded Fresh Keyboard",
+              "Generic Concrete Pizza",
+              "Tasty Cotton Computer",
+              "Fantastic Steel Shirt",
+              "Practical Soft Car",
+              "Fantastic Plastic Bacon",
+              "Gorgeous Frozen Pizza",
+              "Licensed Wooden Hat",
+              "Gorgeous Steel Salad",
+              "Awesome Wooden Table",
+              "Small Frozen Keyboard",
+              "Rustic Metal Computer"]
+
+    num = randint(0, len(names) - 1)
+    return names[num]
 
 def generateItems():
     items = []
-    for id in pokemonIds:
+    for id in pokemon_ids:
         for i in range(0, 3):
-            Items(pokemon_id=id,
-                  price=randint())
+            items.append(Items(pokemon_id=id,
+                  price=randint(1, 100),
+                  happiness=randint(1, 100),
+                  imageUrl=randomImage(),
+                  name=randomName()))
+
+    return items
+
+print(generateItems())
 
