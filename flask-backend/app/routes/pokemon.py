@@ -8,7 +8,7 @@ bp = Blueprint("pokemon", __name__)
 def get_pokemon():
     pokemon = Pokemon.query.all()
     print(pokemon)
-    return jsonify([mon.to_dict() for mon in pokemon])
+    return dict(pokemon)
 
 @bp.route("", methods=['POST'])
 def create_pokemon():
@@ -16,14 +16,33 @@ def create_pokemon():
 
 @bp.route("/types")
 def get_pokemon_types():
-    types = db.session.query(Pokemon.type).distinct()
-    return jsonify(types)
+    types = db.session.query(Pokemon.type).distinct().all()
+    return jsonify([type[0] for type in types])
+
+    # return jsonify([
+    #     "fire",
+    #     "electric",
+    #     "normal",
+    #     "ghost",
+    #     "psychic",
+    #     "water",
+    #     "bug",
+    #     "dragon",
+    #     "grass",
+    #     "fighting",
+    #     "ice",
+    #     "flying",
+    #     "poison",
+    #     "ground",
+    #     "rock",
+    #     "steel"
+    # ])
 
 @bp.route("/<int:id>/items")
 def get_pokemon_items_id(id):
     pokemon = Pokemon.get(id)
     items = pokemon.items()
-    list_items = jsonify([item.to_dict() for item in items])
+    list_items = [item.to_dict for item in items]
     return list_items
 
 @bp.route("/<int:id>/items", methods=['POST'])
