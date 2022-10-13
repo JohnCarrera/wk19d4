@@ -33,7 +33,7 @@ class Pokemon(db.Model):
       'imageUrl': self.image_url,
       'name': self.name,
       'type': self.type,
-      'moves': self.moves,
+      'moves': self.moves.split(','),
       'encounterRate': self.encounter_rate,
       'catchRate': self.catch_rate,
       'captured': self.captured,
