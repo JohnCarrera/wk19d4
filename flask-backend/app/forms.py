@@ -16,3 +16,4 @@ class ItemForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     happiness = IntegerField('Happiness', validators=[DataRequired()])
     price = IntegerField('Price', validators=[DataRequired()])
+    submit = SubmitField('Submit')
