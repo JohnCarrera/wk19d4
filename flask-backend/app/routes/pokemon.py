@@ -8,8 +8,7 @@ bp = Blueprint("pokemon", __name__)
 def get_pokemon():
     pokemon = Pokemon.query.all()
     print(pokemon)
-    return "pokemon here"
-    # return pokemon.to_dict()
+    return dict(pokemon)
 
 @bp.route("", methods=['POST'])
 def create_pokemon():
@@ -18,7 +17,7 @@ def create_pokemon():
 @bp.route("/types")
 def get_pokemon_types():
     types = db.session.query(Pokemon.type).distinct()
-    return types.to_dict()
+    return dict(types)
 
 @bp.route("/<int:id>/items")
 def get_pokemon_items_id(id):
