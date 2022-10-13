@@ -15,7 +15,9 @@ Werkzeug = "==2.0.1"
 WTForms = "==2.3.3"
 Flask-Migrate = "==3.0.1"
 alembic = "==1.6.5"
-
+pycodestyle = "*"
+pylint = "*"
+rope = "*"
 
 [dev-packages]
 
