@@ -4,7 +4,7 @@ from ..models import db
 bp = Blueprint("pokemon", __name__)
 
 # routes to /pokemon
-@bp.route("")
+@bp.route("", methods=['GET'])
 def get_pokemon():
     return "an array of pokemon"
 
