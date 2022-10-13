@@ -39,9 +39,9 @@ def get_pokemon_types():
 
 @bp.route("/<int:id>/items")
 def get_pokemon_items_id(id):
-    pokemon = Pokemon.get(id)
-    items = pokemon.items()
-    list_items = [item.to_dict for item in items]
+    pokemon = Pokemon.query.get(id)
+    items = pokemon.items
+    list_items = jsonify([item.to_dict() for item in items])
     return list_items
 
 @bp.route("/<int:id>/items", methods=['POST'])
@@ -51,7 +51,7 @@ def add_pokemon_item_id(id):
 
 @bp.route("/<int:id>")
 def get_pokemon_id(id):
-    pokemon = Pokemon.get(id)
+    pokemon = Pokemon.query.get(id)
     return pokemon.to_dict()
 
 @bp.route("/<int:id>", methods=['PUT'])
