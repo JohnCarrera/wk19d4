@@ -1,8 +1,8 @@
-"""create tables
+"""create pokemon and items tables
 
-Revision ID: 7943a15e06fd
+Revision ID: a85256520a9a
 Revises: 
-Create Date: 2022-10-13 12:30:00.842852
+Create Date: 2022-10-13 14:17:54.011414
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '7943a15e06fd'
+revision = 'a85256520a9a'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -26,6 +26,7 @@ def upgrade():
     sa.Column('image_url', sa.VARCHAR(), nullable=False),
     sa.Column('name', sa.VARCHAR(), nullable=False),
     sa.Column('type', sa.VARCHAR(), nullable=False),
+    sa.Column('moves', sa.VARCHAR(), nullable=False),
     sa.Column('encounter_rate', sa.Float(precision=3), nullable=True),
     sa.Column('catch_rate', sa.Float(precision=3), nullable=True),
     sa.Column('captured', sa.Boolean(), nullable=True),
