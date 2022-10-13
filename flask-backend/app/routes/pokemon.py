@@ -1,5 +1,19 @@
-from flask import Blueprint, redirect, jsonify
+from flask import Blueprint, redirect, jsonify, request
+from ..forms import ItemForm
 from ..models import db, Pokemon, Items
+
+from random import randint
+
+
+def random_item_image():
+    images = ["/static/images/pokemon_berry.svg",
+            "/static/images/pokemon_egg.svg",
+            "/static/images/pokemon_potion.svg",
+            "/static/images/pokemon_super_potion.svg"]
+
+    num = randint(0, len(images) - 1)
+    return images[num]
+
 
 bp = Blueprint("pokemon", __name__)
 
@@ -46,8 +60,23 @@ def get_pokemon_items_id(id):
 
 @bp.route("/<int:id>/items", methods=['POST'])
 def add_pokemon_item_id(id):
-    returnStr=f'added item for pokemon {id}'
-    return returnStr
+    form = ItemForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        data = form.data
+        print(data)
+        item = Items(
+            name = data['name'],
+            happiness = data['happiness'],
+            price = data['price'],
+            pokemon_id = id,
+            image_url = random_item_image()
+        )
+
+        db.session.add(item)
+        db.session.commit()
+        return jsonify(item.to_dict())
+    return
 
 @bp.route("/<int:id>")
 def get_pokemon_id(id):
