@@ -1,5 +1,6 @@
 from flask import Blueprint, redirect, jsonify, request
-from ..forms import ItemForm
+from app import ValidationError
+from ..forms import ItemForm, PokemonForm
 from ..models import db, Pokemon, Items
 
 from random import randint
@@ -25,7 +26,23 @@ def get_pokemon():
 
 @bp.route("", methods=['POST'])
 def create_pokemon():
-    return "NEW POKEMON CREATED"
+    form = PokemonForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        data = form.data
+        pokemon = Pokemon(
+            number= data['number'],
+            attack= data['attack'],
+            defense= data['defense'],
+            image_url= data['image_url'] or '/static/images/unknown.png',
+            name= data['name'],
+            type= data['type'],
+            moves= f'{data["move1"]},{data["move2"]}',
+        )
+        db.session.add(pokemon)
+        db.session.commit()
+        return jsonify(pokemon.to_dict())
+    raise ValidationError('Validation Error')
 
 @bp.route("/types")
 def get_pokemon_types():
