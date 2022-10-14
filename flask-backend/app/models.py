@@ -1,9 +1,7 @@
-from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime as dt
-
+from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
-
 
 class Pokemon(db.Model):
   __tablename__ = 'pokemon'
