@@ -46,27 +46,24 @@ def create_pokemon():
 
 @bp.route("/types")
 def get_pokemon_types():
-    types = db.session.query(Pokemon.type).distinct().all()
-    return jsonify([type[0] for type in types])
-
-    # return jsonify([
-    #     "fire",
-    #     "electric",
-    #     "normal",
-    #     "ghost",
-    #     "psychic",
-    #     "water",
-    #     "bug",
-    #     "dragon",
-    #     "grass",
-    #     "fighting",
-    #     "ice",
-    #     "flying",
-    #     "poison",
-    #     "ground",
-    #     "rock",
-    #     "steel"
-    # ])
+    return jsonify([
+        "fire",
+        "electric",
+        "normal",
+        "ghost",
+        "psychic",
+        "water",
+        "bug",
+        "dragon",
+        "grass",
+        "fighting",
+        "ice",
+        "flying",
+        "poison",
+        "ground",
+        "rock",
+        "steel"
+    ])
 
 @bp.route("/<int:id>/items")
 def get_pokemon_items_id(id):
@@ -102,5 +99,14 @@ def get_pokemon_id(id):
 
 @bp.route("/<int:id>", methods=['PUT'])
 def update_pokemon_id(id):
+
+    form = ItemForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        data = form.data
+        print(data)
+        pokemon = Pokemon.query.get(id)
+        pokemon.update(item.to_dict())
+        db.session.commit()
     returnStr=f'updated pokemon {id}'
-    return returnStr
+    return jsonify(returnStr)
