@@ -1,16 +1,23 @@
 import os
-from flask_wtf.csrf import CSRFProtect, generate_csrf
-from flask import Flask, render_template, redirect
-from .config import Configuration
+from flask_wtf.csrf import  generate_csrf
+from flask import Flask, jsonify
 from flask_migrate import Migrate
-from .models import db
+
+
+from .config import Configuration
+from .utils import ValidationError
 from .routes import pokemon
 from .routes import items
 
+
 app = Flask(__name__)
+
+
 app.config.from_object(Configuration)
 app.register_blueprint(pokemon.bp, url_prefix='/api/pokemon')
 app.register_blueprint(items.bp, url_prefix='/api/items')
+
+from .models import db
 
 db.init_app(app)
 migrate = Migrate(app, db)
@@ -21,6 +28,11 @@ migrate = Migrate(app, db)
 def index():
     return "<h1>The server is live!</h1>"
 
+@app.errorhandler(ValidationError)
+def handle_validation_error(error):
+    response = jsonify(error.to_dict())
+    response.status_code = error.status
+    return response.to_dict()
 
 # after request code for CSRF token injection
 @app.after_request
